@@ -1,0 +1,24 @@
+= Asciidoctor Rouge
+:source-language: ruby
+// custom
+:gem-name: asciidoctor-rouge
+:gem-version: 0.0.0.dev
+:gh-name: jirutka/{gem-name}
+:gh-branch: master
+:codacy-id: FIXME
+
+ifdef::env-github[]
+image:https://travis-ci.org/{gh-name}.svg?branch={gh-branch}[Build Status, link="https://travis-ci.org/{gh-name}"]
+image:https://api.codacy.com/project/badge/Coverage/{codacy-id}["Test Coverage", link="https://www.codacy.com/app/{gh-name}"]
+image:https://api.codacy.com/project/badge/Grade/{codacy-id}["Codacy Code quality", link="https://www.codacy.com/app/{gh-name}"]
+image:https://img.shields.io/gem/v/{gem-name}.svg?style=flat[Gem Version, link="https://rubygems.org/gems/{gem-name}"]
+endif::env-github[]
+
+
+FIXME
+
+
+== License
+
+This project is licensed under http://opensource.org/licenses/MIT/[MIT License].
+For the full text of the license, see the link:LICENSE[LICENSE] file.
