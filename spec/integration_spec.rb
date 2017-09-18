@@ -78,6 +78,16 @@ module Asciidoctor::Rouge
       HTML
     end
 
+    test 'Source block with passthrough and macros substitution enabled' do
+      given <<-ADOC.unindent
+        [source, ruby, subs="macros"]
+        puts '+++<strong>Oh hai!</strong>+++'
+      ADOC
+      expected <<-HTML.unindent
+        <span class="nb">puts</span> <span class="s1">'<strong>Oh hai!</strong>'</span>
+      HTML
+    end
+
 
     def attributes(hash)
       @attributes.merge!(hash)

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 require 'asciidoctor/rouge/version'
 require 'asciidoctor/rouge/callouts_substitutor'
+require 'asciidoctor/rouge/passthroughs_substitutor'
 require 'asciidoctor/extensions'
 require 'rouge'
 
@@ -9,14 +10,22 @@ module Asciidoctor::Rouge
   class Treeprocessor < ::Asciidoctor::Extensions::Treeprocessor
 
     # @param formatter [Rouge::Formatter]
+    #
     # @param callouts_sub [#create] the callouts substitutor class to use for
     #   processing callouts. Defaults to {CalloutsSubstitutor}.
+    #
+    # @param passthroughs_sub [#create] the passthroughs substitutor class to
+    #   use for processing passthroughs.
+    #   Defaults to {PassthroughsSubstitutor}.
+    #
     def initialize(formatter: ::Rouge::Formatters::HTML,
-                   callouts_sub: CalloutsSubstitutor, **)
+                   callouts_sub: CalloutsSubstitutor,
+                   passthroughs_sub: PassthroughsSubstitutor, **)
       super
 
       @formatter = formatter
       @callouts_sub = callouts_sub
+      @passthroughs_sub = passthroughs_sub
     end
 
     # @param document [Asciidoctor::Document] the document to process.
@@ -38,6 +47,11 @@ module Asciidoctor::Rouge
       # Don't escape special characters, Rouge will take care of it.
       subs.delete(:specialcharacters)
 
+      if subs.delete(:macros)
+        passthroughs = @passthroughs_sub.create(block)
+        source = passthroughs.extract(source)
+      end
+
       if subs.delete(:callouts)
         callouts = @callouts_sub.create(block)
         source = callouts.extract(source)
@@ -52,6 +66,7 @@ module Asciidoctor::Rouge
 
       result = highlight(lexer, source)
       result = callouts.restore(result) if callouts
+      result = passthroughs.restore(result) if passthroughs
 
       block.lines.replace(result.split("\n"))
     end
