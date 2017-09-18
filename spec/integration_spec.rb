@@ -60,6 +60,24 @@ module Asciidoctor::Rouge
       HTML
     end
 
+    test 'Source block with callouts' do
+      given <<-ADOC.unindent
+        [source, ruby]
+        ----
+        require 'asciidoctor'  # <1>
+
+        puts 'Hello, world!'   # <2> <3>
+        puts 'How are you?'
+        ----
+      ADOC
+      expected <<-HTML.unindent
+        <span class="nb">require</span> <span class="s1">'asciidoctor'</span>  <b class="conum">(1)</b>
+
+        <span class="nb">puts</span> <span class="s1">'Hello, world!'</span>    <b class="conum">(2)</b> <b class="conum">(3)</b>
+        <span class="nb">puts</span> <span class="s1">'How are you?'</span>
+      HTML
+    end
+
 
     def attributes(hash)
       @attributes.merge!(hash)

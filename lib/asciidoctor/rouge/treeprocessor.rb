@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 require 'asciidoctor/rouge/version'
+require 'asciidoctor/rouge/callouts_substitutor'
 require 'asciidoctor/extensions'
 require 'rouge'
 
@@ -7,10 +8,15 @@ module Asciidoctor::Rouge
   # An Asciidoctor extension that highlights source listings using Rouge.
   class Treeprocessor < ::Asciidoctor::Extensions::Treeprocessor
 
-    # @param formatter [Rogue::Formatter]
-    def initialize(formatter: Rouge::Formatters::HTML)
+    # @param formatter [Rouge::Formatter]
+    # @param callouts_sub [#create] the callouts substitutor class to use for
+    #   processing callouts. Defaults to {CalloutsSubstitutor}.
+    def initialize(formatter: ::Rouge::Formatters::HTML,
+                   callouts_sub: CalloutsSubstitutor, **)
       super
+
       @formatter = formatter
+      @callouts_sub = callouts_sub
     end
 
     # @param document [Asciidoctor::Document] the document to process.
@@ -26,18 +32,27 @@ module Asciidoctor::Rouge
 
     # @param block [Asciidoctor::Block] the listing block to highlight.
     def process_listing(block)
-      # Don't escape special characters, Rouge takes care of it.
-      block.subs.delete(:specialcharacters)
+      source = block.source  # String
+      subs = block.subs  # Array<Symbol>
 
-      # Eagry apply substitutions.
-      source = block.apply_subs(block.source, block.subs)
-      block.subs.clear
+      # Don't escape special characters, Rouge will take care of it.
+      subs.delete(:specialcharacters)
+
+      if subs.delete(:callouts)
+        callouts = @callouts_sub.create(block)
+        source = callouts.extract(source)
+      end
+
+      source = block.apply_subs(source, subs)
+      subs.clear
 
       lang = block.attr('language', 'plaintext', false)
       lexer = find_lexer(lang)
       block.set_attr('language', lexer.tag)
 
       result = highlight(lexer, source)
+      result = callouts.restore(result) if callouts
+
       block.lines.replace(result.split("\n"))
     end
 
