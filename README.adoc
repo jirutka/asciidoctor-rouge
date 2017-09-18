@@ -5,7 +5,7 @@
 :gem-version: 0.0.0.dev
 :gh-name: jirutka/{gem-name}
 :gh-branch: master
-:codacy-id: FIXME
+:codacy-id: d2ed58f5f3f949a19bab7637fe7d0bdb
 
 ifdef::env-github[]
 image:https://travis-ci.org/{gh-name}.svg?branch={gh-branch}[Build Status, link="https://travis-ci.org/{gh-name}"]
