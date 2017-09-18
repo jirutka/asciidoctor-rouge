@@ -16,7 +16,32 @@ image:https://img.shields.io/badge/yard-docs-blue.svg[Yard Docs, link="http://ww
 endif::env-github[]
 
 
-FIXME
+This project provides an http://asciidoctor.org/[Asciidoctor] extension for highlighting source listing blocks using http://rouge.jneen.net/[Rouge] – a pure-ruby code highlighter that is compatible with pygments.
+
+It supports all Asciidoctor features such as http://asciidoctor.org/docs/user-manual/#callouts[callouts], highlighting of specified lines (attribute `highlight`), http://asciidoctor.org/docs/user-manual/#passthroughs[passthroughs] inside a code and all other substitutions.
+
+This extension is highly customizable and modular.
+
+
+== Installation
+
+To install (or update to the latest version):
+
+[source, sh, subs="+attributes"]
+gem install {gem-name}
+
+or to install the latest development version:
+
+[source, sh, subs="+attributes"]
+gem install {gem-name} --pre
+
+
+== Usage
+
+Set attribute `source-highlighter` to `rouge`; globally or in the document.
+
+[source, sh, subs="+attributes"]
+asciidoctor -r {gem-name} -a source-highlighter=rouge Example.adoc
 
 
 == License
