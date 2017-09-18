@@ -34,7 +34,7 @@ module Asciidoctor::Rouge
         puts 'Hello, world!'
       ADOC
       expected <<-HTML.unindent
-        puts 'Hello, world!'
+        <span id="L1" class="line">puts 'Hello, world!'</span>
       HTML
     end
 
@@ -44,7 +44,7 @@ module Asciidoctor::Rouge
         puts 'Hello, world!'
       ADOC
       expected <<-HTML.unindent
-        <span class="nb">puts</span> <span class="s1">'Hello, world!'</span>
+        <span id="L1" class="line"><span class="nb">puts</span> <span class="s1">'Hello, world!'</span></span>
       HTML
     end
 
@@ -56,7 +56,7 @@ module Asciidoctor::Rouge
         puts "{message}"
       ADOC
       expected <<-HTML
-        <span class="nb">puts</span> <span class="s2">"Hello, </span><span class="si">\#{</span><span class="n">subject</span><span class="si">}</span><span class="s2">!"</span>
+        <span id="L1" class="line"><span class="nb">puts</span> <span class="s2">"Hello, </span><span class="si">\#{</span><span class="n">subject</span><span class="si">}</span><span class="s2">!"</span></span>
       HTML
     end
 
@@ -71,10 +71,10 @@ module Asciidoctor::Rouge
         ----
       ADOC
       expected <<-HTML.unindent
-        <span class="nb">require</span> <span class="s1">'asciidoctor'</span>  <b class="conum">(1)</b>
-
-        <span class="nb">puts</span> <span class="s1">'Hello, world!'</span>    <b class="conum">(2)</b> <b class="conum">(3)</b>
-        <span class="nb">puts</span> <span class="s1">'How are you?'</span>
+        <span id="L1" class="line"><span class="nb">require</span> <span class="s1">'asciidoctor'</span>  </span><b class="conum">(1)</b>
+        <span id="L2" class="line"></span>
+        <span id="L3" class="line"><span class="nb">puts</span> <span class="s1">'Hello, world!'</span>    </span><b class="conum">(2)</b> <b class="conum">(3)</b>
+        <span id="L4" class="line"><span class="nb">puts</span> <span class="s1">'How are you?'</span></span>
       HTML
     end
 
@@ -84,7 +84,47 @@ module Asciidoctor::Rouge
         puts '+++<strong>Oh hai!</strong>+++'
       ADOC
       expected <<-HTML.unindent
-        <span class="nb">puts</span> <span class="s1">'<strong>Oh hai!</strong>'</span>
+        <span id="L1" class="line"><span class="nb">puts</span> <span class="s1">'<strong>Oh hai!</strong>'</span></span>
+      HTML
+    end
+
+    test 'Source block with highlighted lines' do
+      given <<-ADOC.unindent
+        [source, ruby, highlight="3,5"]
+        ----
+        require 'asciidoctor'
+
+        puts "Roses are red,"
+        puts "Violets are blue."
+        puts "Na'vis too."
+        ----
+      ADOC
+      expected <<-HTML.unindent
+        <span id="L1" class="line"><span class="nb">require</span> <span class="s1">'asciidoctor'</span></span>
+        <span id="L2" class="line"></span>
+        <span id="L3" class="line"><strong class="highlighted"><span class="nb">puts</span> <span class="s2">"Roses are red,"</span></strong></span>
+        <span id="L4" class="line"><span class="nb">puts</span> <span class="s2">"Violets are blue."</span></span>
+        <span id="L5" class="line"><strong class="highlighted"><span class="nb">puts</span> <span class="s2">"Na'vis too."</span></strong></span>
+      HTML
+    end
+
+    test 'Source block with callouts and highlighted lines' do
+      given <<-ADOC.unindent
+        [source, ruby, highlight="3,5"]
+        ----
+        require 'asciidoctor'  # <1>
+
+        puts "Roses are red,"  # <2>
+        puts "Violets are blue."
+        puts "Na'vis too."
+        ----
+      ADOC
+      expected <<-HTML.unindent
+        <span id="L1" class="line"><span class="nb">require</span> <span class="s1">'asciidoctor'</span>  </span><b class="conum">(1)</b>
+        <span id="L2" class="line"></span>
+        <span id="L3" class="line"><strong class="highlighted"><span class="nb">puts</span> <span class="s2">"Roses are red,"</span>  </strong></span><b class="conum">(2)</b>
+        <span id="L4" class="line"><span class="nb">puts</span> <span class="s2">"Violets are blue."</span></span>
+        <span id="L5" class="line"><strong class="highlighted"><span class="nb">puts</span> <span class="s2">"Na'vis too."</span></strong></span>
       HTML
     end
 

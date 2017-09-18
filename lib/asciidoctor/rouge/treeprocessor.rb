@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 require 'asciidoctor/rouge/version'
 require 'asciidoctor/rouge/callouts_substitutor'
+require 'asciidoctor/rouge/html_formatter'
 require 'asciidoctor/rouge/passthroughs_substitutor'
 require 'asciidoctor/extensions'
 require 'rouge'
@@ -9,7 +10,14 @@ module Asciidoctor::Rouge
   # An Asciidoctor extension that highlights source listings using Rouge.
   class Treeprocessor < ::Asciidoctor::Extensions::Treeprocessor
 
-    # @param formatter [Rouge::Formatter]
+    # @param formatter [Class<Rouge::Formatter>] the Rouge formatter to use for
+    #   formatting a token stream from a Rouge lexer. It must respond to method
+    #   +format+ accepting a token stream and (optionally) a hash of options,
+    #   producing +String+. Defaults to {HtmlFormatter}.
+    #
+    # @param formatter_opts [Hash] options to pass to the _formatter_.
+    #   It's used only if _formatter's_ +format+ method has arity > 1.
+    #   Defaults to empty hash.
     #
     # @param callouts_sub [#create] the callouts substitutor class to use for
     #   processing callouts. Defaults to {CalloutsSubstitutor}.
@@ -18,12 +26,14 @@ module Asciidoctor::Rouge
     #   use for processing passthroughs.
     #   Defaults to {PassthroughsSubstitutor}.
     #
-    def initialize(formatter: ::Rouge::Formatters::HTML,
+    def initialize(formatter: HtmlFormatter,
+                   formatter_opts: {},
                    callouts_sub: CalloutsSubstitutor,
                    passthroughs_sub: PassthroughsSubstitutor, **)
       super
 
       @formatter = formatter
+      @formatter_opts = formatter_opts
       @callouts_sub = callouts_sub
       @passthroughs_sub = passthroughs_sub
     end
@@ -64,7 +74,11 @@ module Asciidoctor::Rouge
       lexer = find_lexer(lang)
       block.set_attr('language', lexer.tag)
 
-      result = highlight(lexer, source)
+      if block.attr?('highlight', nil, false)
+        highlight_lines = block.resolve_highlight_lines(block.attr('highlight', '', false))
+      end
+
+      result = highlight(lexer, source, highlight_lines)
       result = callouts.restore(result) if callouts
       result = passthroughs.restore(result) if passthroughs
 
@@ -79,9 +93,18 @@ module Asciidoctor::Rouge
 
     # @param lexer [Rouge::Lexer] the lexer to use.
     # @param source [String] the code to highlight.
+    # @param highlight_lines [Array<Integer>] a list of line numbers (1-based)
+    #   to be highlighted.
     # @return [String] a highlighted and formatted _source_.
-    def highlight(lexer, source)
-      @formatter.format(lexer.lex(source))
+    def highlight(lexer, source, highlight_lines = [])
+      tokens = lexer.lex(source)
+
+      if @formatter.method(:format).arity.abs > 1
+        opts = @formatter_opts.merge(highlight_lines: highlight_lines || [])
+        @formatter.format(tokens, opts)
+      else
+        @Formatter.format(tokens)
+      end
     end
   end
 end
