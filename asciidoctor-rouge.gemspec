@@ -11,7 +11,6 @@ Gem::Specification.new do |s|
   s.summary     = 'Rouge code highlighter support for Asciidoctor'
 
   s.files       = Dir['lib/**/*', '*.gemspec', 'LICENSE*', 'README*']
-  s.executables = Dir['bin/*'].map { |f| File.basename(f) }
   s.has_rdoc    = 'yard'
 
   s.required_ruby_version = '>= 2.1'
