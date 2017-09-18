@@ -12,6 +12,7 @@ image:https://travis-ci.org/{gh-name}.svg?branch={gh-branch}[Build Status, link=
 image:https://api.codacy.com/project/badge/Coverage/{codacy-id}["Test Coverage", link="https://www.codacy.com/app/{gh-name}"]
 image:https://api.codacy.com/project/badge/Grade/{codacy-id}["Codacy Code quality", link="https://www.codacy.com/app/{gh-name}"]
 image:https://img.shields.io/gem/v/{gem-name}.svg?style=flat[Gem Version, link="https://rubygems.org/gems/{gem-name}"]
+image:https://img.shields.io/badge/yard-docs-blue.svg[Yard Docs, link="http://www.rubydoc.info/github/{gh-name}/{gh-branch}"]
 endif::env-github[]
 
 
