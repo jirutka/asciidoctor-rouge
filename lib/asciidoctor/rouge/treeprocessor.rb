@@ -53,6 +53,7 @@ module Asciidoctor::Rouge
     def process_listing(block)
       source = block.source  # String
       subs = block.subs  # Array<Symbol>
+      opts = {}
 
       # Don't escape special characters, Rouge will take care of it.
       subs.delete(:specialcharacters)
@@ -75,10 +76,11 @@ module Asciidoctor::Rouge
       block.set_attr('language', lexer.tag)
 
       if block.attr?('highlight', nil, false)
-        highlight_lines = block.resolve_highlight_lines(block.attr('highlight', '', false))
+        highlight = block.attr('highlight', '', false)
+        opts[:highlight_lines] = block.resolve_highlight_lines(highlight)
       end
 
-      result = highlight(lexer, source, highlight_lines)
+      result = highlight(source, lexer, opts)
       result = callouts.restore(result) if callouts
       result = passthroughs.restore(result) if passthroughs
 
@@ -91,17 +93,16 @@ module Asciidoctor::Rouge
       (::Rouge::Lexer.find(language) || ::Rouge::Lexers::PlainText).new
     end
 
-    # @param lexer [Rouge::Lexer] the lexer to use.
     # @param source [String] the code to highlight.
-    # @param highlight_lines [Array<Integer>] a list of line numbers (1-based)
-    #   to be highlighted.
+    # @param lexer [Rouge::Lexer] the lexer to use.
+    # @param opts [Hash] extra options for the formatter; it will be merged
+    #   with the +formatter_opts+ (see {#initialize}).
     # @return [String] a highlighted and formatted _source_.
-    def highlight(lexer, source, highlight_lines = [])
+    def highlight(source, lexer, opts = {})
       tokens = lexer.lex(source)
 
       if @formatter.method(:format).arity.abs > 1
-        opts = @formatter_opts.merge(highlight_lines: highlight_lines || [])
-        @formatter.format(tokens, opts)
+        @formatter.format(tokens, @formatter_opts.merge(opts))
       else
         @formatter.format(tokens)
       end
