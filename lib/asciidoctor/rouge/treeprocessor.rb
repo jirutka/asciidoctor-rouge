@@ -82,7 +82,7 @@ module Asciidoctor::Rouge
 
       if block.attr?('highlight', nil, false)
         highlight = block.attr('highlight', '', false)
-        opts[:highlight_lines] = block.resolve_highlight_lines(highlight)
+        opts[:highlighted_lines] = block.resolve_highlight_lines(highlight)
       end
 
       result = highlight(source, lexer, opts)
