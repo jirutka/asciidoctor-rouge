@@ -28,6 +28,17 @@ module Asciidoctor::Rouge
       HTML
     end
 
+    test 'Source block when rouge-css is style' do
+      attributes 'rouge-css' => 'style'
+      given <<-ADOC.unindent
+        [source, ruby]
+        puts 'Hello, world!'
+      ADOC
+      expected <<-HTML.unindent
+        <span id="L1" class="line"><span style="color: #0086B3">puts</span> <span style="color: #d14">'Hello, world!'</span></span>
+      HTML
+    end
+
     test 'Source block without language' do
       given <<-ADOC.unindent
         [source]

@@ -51,6 +51,7 @@ module Asciidoctor::Rouge
 
     # @param block [Asciidoctor::Block] the listing block to highlight.
     def process_listing(block)
+      document = block.document
       source = block.source  # String
       subs = block.subs  # Array<Symbol>
       opts = {}
@@ -74,6 +75,10 @@ module Asciidoctor::Rouge
       lang = block.attr('language', 'plaintext', false)
       lexer = find_lexer(lang)
       block.set_attr('language', lexer.tag)
+
+      if document.attr?('rouge-css', 'style')
+        opts[:inline_theme] = document.attr('rouge-theme', 'github')
+      end
 
       if block.attr?('highlight', nil, false)
         highlight = block.attr('highlight', '', false)

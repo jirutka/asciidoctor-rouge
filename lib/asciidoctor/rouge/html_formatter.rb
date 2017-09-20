@@ -8,8 +8,10 @@ module Asciidoctor::Rouge
 
     tag 'asciidoctor_html'
 
-    # @param parent [Rouge::Formatter] the parent formatter; it must respond
-    #   to method +span(token, value)+. Defaults to +Rouge::Formatters::HTML+.
+    # @param parent [Rouge::Formatter::HTML, #span, nil] the parent HTML
+    #   formatter to delegate formatting of tokens to, or +nil+ to get
+    #   +html+ or +html_inline+ formatter from the +Rouge::Formatter+'s
+    #   registry.
     #
     # @param highlight_lines [Array<Integer>] a list of line numbers
     #   (1-based) to be highlighted (i.e. added _highlight_class_ to a line
@@ -18,17 +20,29 @@ module Asciidoctor::Rouge
     # @param highlight_class [String] CSS class to use on a line wrapper
     #   element for highlighted lines (see above). Defaults to "highlighted".
     #
+    # @param inline_theme [String, Rouge::Theme, Class<Rouge::Theme>, nil]
+    #   the theme to use for inline styles, or +nil+ to not set inline styles
+    #   (i.e. use classes). This is ignored if _parent_ is not +nil+.
+    #
     # @param line_id [String] format string specifying +id+ for each line.
     #   Defaults to "L%i".
     #
     # @param line_class [String] CSS class to use on a line wrapper element.
     #   Defaults to "line".
     #
-    def initialize(parent: ::Rouge::Formatters::HTML.new,
+    def initialize(parent: nil,
                    highlight_lines: [],
                    highlight_class: 'highlighted',
+                   inline_theme: nil,
                    line_id: 'L%i',
                    line_class: 'line', **)
+
+      parent ||= if inline_theme
+        ::Rouge::Formatter.find('html_inline').new(inline_theme)
+      else
+        ::Rouge::Formatter.find('html').new
+      end
+
       @parent = parent
       @highlight_lines = highlight_lines
       @highlight_class = highlight_class
