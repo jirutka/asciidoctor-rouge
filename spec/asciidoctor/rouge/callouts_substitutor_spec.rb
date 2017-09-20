@@ -44,14 +44,14 @@ module Asciidoctor::Rouge
         context %(text with callouts like "#{callout % [1, 2]}") do
 
           let(:text) do
-            text_with_callouts % [callout % callouts[2], callout % callouts[4]]
+            text_with_callouts % [callout % callouts[3], callout % callouts[5]]
           end
 
           let(:callouts) do
             if callout.count('%') == 1
-              { 2 => [1], 4 => [3] }
+              { 3 => [1], 5 => [3] }
             else
-              { 2 => [1, 2], 4 => [3, 4] }
+              { 3 => [1, 2], 5 => [3, 4] }
             end
           end
 
@@ -59,8 +59,8 @@ module Asciidoctor::Rouge
 
           it 'returns text with callouts stripped' do
             expected = text
-              .gsub(callout % callouts[2], '')
-              .gsub(callout % callouts[4], '')
+              .gsub(callout % callouts[3], '')
+              .gsub(callout % callouts[5], '')
             expect( result ).to eq expected
           end
 
@@ -117,7 +117,7 @@ module Asciidoctor::Rouge
       end
 
       context 'text with callouts' do
-        let(:callouts) { { 2 => [1], 4 => [3, 4] } }
+        let(:callouts) { { 3 => [1], 5 => [3, 4] } }
         let(:text) { text_with_callouts % ['', ''] }
         let(:expected) { text_with_callouts % ['<b>1</b>', '<b>3</b> <b>4</b>'] }
 

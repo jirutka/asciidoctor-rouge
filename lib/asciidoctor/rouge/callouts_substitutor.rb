@@ -29,7 +29,7 @@ module Asciidoctor::Rouge
       escape_char = ::Asciidoctor::Substitutors::RS
       @callouts.clear
 
-      text.each_line.with_index.map { |line, ln|
+      text.each_line.with_index(1).map { |line, ln|
         line.gsub(@callout_rx) do
           match = $LAST_MATCH_INFO
           if match[1] == escape_char
@@ -50,7 +50,7 @@ module Asciidoctor::Rouge
     def restore(text)
       return text if @callouts.empty?
 
-      text.each_line.with_index.map { |line, ln|
+      text.each_line.with_index(1).map { |line, ln|
         if (conums = @callouts.delete(ln))
           line.chomp + conums.map { |num| convert_callout(num) }.join(' ') + "\n"
         else
