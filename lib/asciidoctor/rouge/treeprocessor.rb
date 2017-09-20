@@ -103,7 +103,7 @@ module Asciidoctor::Rouge
         opts = @formatter_opts.merge(highlight_lines: highlight_lines || [])
         @formatter.format(tokens, opts)
       else
-        @Formatter.format(tokens)
+        @formatter.format(tokens)
       end
     end
   end
