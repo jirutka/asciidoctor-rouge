@@ -82,9 +82,9 @@ module Asciidoctor::Rouge
         ----
       ADOC
       expected <<-HTML.unindent
-        <span id="L1" class="line"><span class="nb">require</span> <span class="s1">'asciidoctor'</span>  </span><b class="conum">(1)</b>
+        <span id="L1" class="line"><span class="nb">require</span> <span class="s1">'asciidoctor'</span>  <b class="conum">(1)</b></span>
         <span id="L2" class="line"></span>
-        <span id="L3" class="line"><span class="nb">puts</span> <span class="s1">'Hello, world!'</span>    </span><b class="conum">(2)</b> <b class="conum">(3)</b>
+        <span id="L3" class="line"><span class="nb">puts</span> <span class="s1">'Hello, world!'</span>    <b class="conum">(2)</b> <b class="conum">(3)</b></span>
         <span id="L4" class="line"><span class="nb">puts</span> <span class="s1">'How are you?'</span></span>
       HTML
     end
@@ -131,9 +131,9 @@ module Asciidoctor::Rouge
         ----
       ADOC
       expected <<-HTML.unindent
-        <span id="L1" class="line"><span class="nb">require</span> <span class="s1">'asciidoctor'</span>  </span><b class="conum">(1)</b>
+        <span id="L1" class="line"><span class="nb">require</span> <span class="s1">'asciidoctor'</span>  <b class="conum">(1)</b></span>
         <span id="L2" class="line"></span>
-        <span id="L3" class="line highlighted"><span class="nb">puts</span> <span class="s2">"Roses are red,"</span>  </span><b class="conum">(2)</b>
+        <span id="L3" class="line highlighted"><span class="nb">puts</span> <span class="s2">"Roses are red,"</span>  <b class="conum">(2)</b></span>
         <span id="L4" class="line"><span class="nb">puts</span> <span class="s2">"Violets are blue."</span></span>
         <span id="L5" class="line highlighted"><span class="nb">puts</span> <span class="s2">"Na'vis too."</span></span>
       HTML

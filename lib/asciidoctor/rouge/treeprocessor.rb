@@ -85,8 +85,9 @@ module Asciidoctor::Rouge
         opts[:highlighted_lines] = block.resolve_highlight_lines(highlight)
       end
 
+      opts[:callout_markers] = callouts.method(:convert_line) if callouts
+
       result = highlight(source, lexer, opts)
-      result = callouts.restore(result) if callouts
       result = passthroughs.restore(result) if passthroughs
 
       block.lines.replace(result.split("\n"))

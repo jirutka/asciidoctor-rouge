@@ -43,20 +43,17 @@ module Asciidoctor::Rouge
       }.join
     end
 
-    # Converts and restores the extracted callouts for the given _text_.
+    # Converts the extracted callout markers for the specified line.
     #
-    # @param text [#each_line]
-    # @return [String] a copy of the _text_ with inserted callouts.
-    def restore(text)
-      return text if @callouts.empty?
+    # @param line_num [Integer] the line number (1-based).
+    # @return [String] converted callout markers for the _line_num_,
+    #   or an empty string if there are no callouts for that line.
+    def convert_line(line_num)
+      return '' unless @callouts.key? line_num
 
-      text.each_line.with_index(1).map { |line, ln|
-        if (conums = @callouts.delete(ln))
-          line.chomp + conums.map { |num| convert_callout(num) }.join(' ') + "\n"
-        else
-          line
-        end
-      }.join
+      @callouts[line_num]
+        .map { |num| convert_callout(num) }
+        .join(' ')
     end
 
     protected
@@ -75,7 +72,7 @@ module Asciidoctor::Rouge
     end
 
     # @param number [Integer] callout number.
-    # @return [String] an HTML markup of callout with the given _number_.
+    # @return [String] an HTML markup of a callout marker with the given _number_.
     def convert_callout(number)
       ::Asciidoctor::Inline.new(@node, :callout, number, id: next_callout_id).convert
     end

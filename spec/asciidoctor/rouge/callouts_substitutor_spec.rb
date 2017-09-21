@@ -106,20 +106,16 @@ module Asciidoctor::Rouge
     end
 
 
-    describe '#restore' do
+    describe '#convert_line' do
 
-      context 'text without callouts' do
-        let(:text) { text_without_callouts }
-
-        it 'returns the given text unchanged' do
-          expect( substitutor.restore(text) ).to eq text
+      context 'no callouts extracted' do
+        it 'returns empty string' do
+          expect( substitutor.convert_line(1) ).to eq ''
         end
       end
 
-      context 'text with callouts' do
+      context 'callouts extracted' do
         let(:callouts) { { 3 => [1], 5 => [3, 4] } }
-        let(:text) { text_with_callouts % ['', ''] }
-        let(:expected) { text_with_callouts % ['<b>1</b>', '<b>3</b> <b>4</b>'] }
 
         before do
           substitutor.callouts.replace(callouts)
@@ -129,8 +125,22 @@ module Asciidoctor::Rouge
           end
         end
 
-        it 'returns text with callouts appended at the end of correct lines' do
-          expect( substitutor.restore(text) ).to eq expected
+        context 'with line_num of a line with no callouts' do
+          it 'returns empty string' do
+            expect( substitutor.convert_line(2) ).to eq ''
+          end
+        end
+
+        context 'with line_num of a line with one callout' do
+          it 'returns converted callout marker as a string' do
+            expect( substitutor.convert_line(3) ).to eq '<b>1</b>'
+          end
+        end
+
+        context 'with line_num of a line with more callouts' do
+          it 'returns converted callout markers as a string' do
+            expect( substitutor.convert_line(5) ).to eq '<b>3</b> <b>4</b>'
+          end
         end
       end
     end

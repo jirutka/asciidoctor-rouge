@@ -3,11 +3,16 @@ require 'asciidoctor/rouge/version'
 require 'rouge'
 
 module Asciidoctor::Rouge
-  # An HTML Rouge formatter with support for lines ID and highlighted lines.
+  # An HTML Rouge formatter for Asciidoctor with support for callouts and
+  # highlighted lines.
   class HtmlFormatter < ::Rouge::Formatter
 
     tag 'asciidoctor_html'
 
+    # @param callout_markers [#[], nil] callout markers indexed by
+    #   line numbers to be inserted between the line's content and the line's
+    #   closing tag.
+    #
     # @param highlighted_class [String] CSS class to use on a line wrapper
     #   element for highlighted lines (see above). Defaults to "highlighted".
     #
@@ -30,7 +35,8 @@ module Asciidoctor::Rouge
     #   +html+ or +html_inline+ formatter from the +Rouge::Formatter+'s
     #   registry.
     #
-    def initialize(highlighted_class: 'highlighted',
+    def initialize(callout_markers: nil,
+                   highlighted_class: 'highlighted',
                    highlighted_lines: [],
                    inline_theme: nil,
                    line_class: 'line',
@@ -43,6 +49,7 @@ module Asciidoctor::Rouge
         ::Rouge::Formatter.find('html').new
       end
 
+      @callout_markers = callout_markers || {}
       @inner = inner
       @highlighted_lines = highlighted_lines || []
       @highlighted_class = highlighted_class
@@ -88,8 +95,8 @@ module Asciidoctor::Rouge
       ].compact.join
     end
 
-    def line_end(_line_num)
-      %(</span>)
+    def line_end(line_num)
+      %(#{@callout_markers[line_num]}</span>)
     end
 
     def highlighted?(line_num)
