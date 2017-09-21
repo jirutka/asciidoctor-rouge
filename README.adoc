@@ -2,7 +2,7 @@
 :source-language: shell
 // custom
 :gem-name: asciidoctor-rouge
-:gem-version: 0.1.1
+:gem-version: 0.2.0
 :gh-name: jirutka/{gem-name}
 :gh-branch: master
 :codacy-id: d2ed58f5f3f949a19bab7637fe7d0bdb
