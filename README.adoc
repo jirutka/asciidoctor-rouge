@@ -1,5 +1,5 @@
 = Asciidoctor Rouge
-:source-language: ruby
+:source-language: shell
 // custom
 :gem-name: asciidoctor-rouge
 :gem-version: 0.1.1
@@ -27,12 +27,12 @@ This extension is highly customizable and modular.
 
 To install (or update to the latest version):
 
-[source, sh, subs="+attributes"]
+[source, subs="+attributes"]
 gem install {gem-name}
 
 or to install the latest development version:
 
-[source, sh, subs="+attributes"]
+[source, subs="+attributes"]
 gem install {gem-name} --pre
 
 
@@ -40,7 +40,7 @@ gem install {gem-name} --pre
 
 Assign `rouge` to the `source-highlighter` attribute in your document’s header or via command-line argument.
 
-[source, sh, subs="+attributes"]
+[source, subs="+attributes"]
 asciidoctor -r {gem-name} -a source-highlighter=rouge Example.adoc
 
 
