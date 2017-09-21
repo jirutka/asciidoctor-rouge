@@ -38,10 +38,26 @@ gem install {gem-name} --pre
 
 == Usage
 
-Set attribute `source-highlighter` to `rouge`; globally or in the document.
+Assign `rouge` to the `source-highlighter` attribute in your document’s header or via command-line argument.
 
 [source, sh, subs="+attributes"]
 asciidoctor -r {gem-name} -a source-highlighter=rouge Example.adoc
+
+
+=== Attributes
+
+You can further customize the source block output with additional Rouge attributes:
+
+rouge-css::
+  Controls what method is used for applying CSS to the tokens.
+  Can be `class` (CSS classes) or `style` (inline styles).
+  When `class` is used, Rouge styles for the specified theme are included in an HTML header.
+  Default is `class`.
+
+rouge-theme::
+  Sets the name of the Rouge colour theme to use.
+  Look into https://github.com/jneen/rouge/tree/master/lib/rouge/themes[lib/rouge/themes] in the Rouge repository for a list of available themes.
+  Default is `github`.
 
 
 == License
