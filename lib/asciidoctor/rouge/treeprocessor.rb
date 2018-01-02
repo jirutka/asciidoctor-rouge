@@ -45,6 +45,20 @@ module Asciidoctor::Rouge
       document.find_by(context: :listing, style: 'source') do |block|
         process_listing(block)
       end
+
+      # Table cells may contain listing, but Document#find_by does not search
+      # inside table, so we must handle it specially.
+      document.find_by(context: :table) do |table|
+        table.rows.body.each do |row|
+          row.each do |cell|
+            if (inner = cell.inner_document)
+              inner.find_by(context: :listing, style: 'source') do |block|
+                process_listing(block)
+              end
+            end
+          end
+        end
+      end
     end
 
     protected

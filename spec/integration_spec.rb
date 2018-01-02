@@ -139,20 +139,44 @@ module Asciidoctor::Rouge
       HTML
     end
 
+    test 'Source block inside a table cell' do
+      doc = parse <<-ADOC.unindent
+        |====
+        | This is a normal cell text
+        a|
+        [source, ruby]
+        puts "Hello from table!"
+        |====
+      ADOC
+
+      @actual = doc
+        .find_by(context: :table).first
+        .rows.body[1].first  # cell
+        .inner_document.blocks.first  # listing
+        .content
+
+      expected <<-HTML.unindent
+        <span id=\"L1\" class=\"line\"><span class=\"nb\">puts</span> <span class=\"s2\">\"Hello from table!\"</span></span>
+      HTML
+    end
+
 
     def attributes(hash)
       @attributes.merge!(hash)
     end
 
     def given(text)
-      @actual = Asciidoctor
-        .load(text, attributes: @attributes)
+      @actual = parse(text)
         .find_by(context: :listing).first.content
     end
 
     def expected(text)
       expect( @actual ).to eq text.strip
       @attributes.clear
+    end
+
+    def parse(text)
+      Asciidoctor.load(text, attributes: @attributes)
     end
   end
 end
