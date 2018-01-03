@@ -2,6 +2,7 @@ dist: trusty
 sudo: false
 language: ruby
 rvm:
+  - 2.5
   - 2.4
   - 2.3
   - 2.2
@@ -16,6 +17,9 @@ matrix:
 env:
   global:
     secure: "Q964YRVFnpsR3KlP/gQQ17OeH+K1TDMrPdEHDphqg6V5dPzCtvDqd4U35E/XpfKPVObxi0bgFj3Dh0EuezB7ochJ6EbrD7uhTrQlee3r+xkXoL00nHZFTETI2ZdC4+cSKQRBFP/abU7CRj10z7fpJ6yr8pzL3lHLh9U2ojMuRdRSOoaqN7U4Dp0XlUH8SIa+fS4X3O8h/Q4hZgc+OtWsVroZTQsoYGERd4E87djbd/uIz+EX5scTw3tLy2qUM552XIQVMmo16FETK9aEa6PBErunM+ySYtm9xfPkiNJzvHUCeCm+daHTz+v5XXCV1Y9j6RFDY2dlcT+kw0fYETNUaMw4UkAUhBYrTuPu1JSTOBHg5c2sEKOIjsO7tsF0UzzzpL7oCN+lz8qmRIoYOHzD5jiAnU5cYDFt25jucFxCyn/dvztaSbUDIh5daH1tUaUJkfNwrNGVqroBDZtTuwR+Akh4B3Cq8KDl47PFGNWjn8ym387vovOaJc+DiptaKyDT1ObFyoYFSoej9sV3fiMEvw7Tran7nDiPQYcKaiaeJdPZKoeyw5JFXNFGMUdTlKHlX6KuesDG+Dc9x1IqklHf5IK1/h7h/nHR26U/ZifVEKnLLA0P4J7ymEGDcmOSX6Xk/3XTX+Vf0hZJFzyvnrypxT/36tZQmIbOsE2RXHOAzgI="  # CODACY_PROJECT_TOKEN
+before_install:
+  # Workaround for https://github.com/travis-ci/travis-ci/issues/8978.
+  - gem update --system
 script:
   - bundle exec rake spec
   - bundle exec rake rubocop
