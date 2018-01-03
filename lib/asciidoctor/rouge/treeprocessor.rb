@@ -12,11 +12,11 @@ module Asciidoctor::Rouge
 
     # @param formatter [Class<Rouge::Formatter>] the Rouge formatter to use for
     #   formatting a token stream from a Rouge lexer. It must respond to method
-    #   +format+ accepting a token stream and (optionally) a hash of options,
-    #   producing +String+. Defaults to {HtmlFormatter}.
+    #   `format` accepting a token stream and (optionally) a hash of options,
+    #   producing `String`. Defaults to {HtmlFormatter}.
     #
-    # @param formatter_opts [Hash] options to pass to the _formatter_.
-    #   It's used only if _formatter's_ +format+ method has arity > 1.
+    # @param formatter_opts [Hash] options to pass to the *formatter*.
+    #   It's used only if *formatter's* `format` method has arity > 1.
     #   Defaults to empty hash.
     #
     # @param callouts_sub [#create] the callouts substitutor class to use for
@@ -112,7 +112,7 @@ module Asciidoctor::Rouge
     end
 
     # @param language [String]
-    # @return [Rouge::Lexer] a lexer for the specified _language_.
+    # @return [Rouge::Lexer] a lexer for the specified *language*.
     def find_lexer(language)
       (::Rouge::Lexer.find(language) || ::Rouge::Lexers::PlainText).new
     end
@@ -120,8 +120,8 @@ module Asciidoctor::Rouge
     # @param source [String] the code to highlight.
     # @param lexer [Rouge::Lexer] the lexer to use.
     # @param opts [Hash] extra options for the formatter; it will be merged
-    #   with the +formatter_opts+ (see {#initialize}).
-    # @return [String] a highlighted and formatted _source_.
+    #   with the `formatter_opts` (see {#initialize}).
+    # @return [String] a highlighted and formatted *source*.
     def highlight(source, lexer, opts = {})
       tokens = lexer.lex(source)
 

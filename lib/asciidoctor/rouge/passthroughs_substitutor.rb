@@ -13,7 +13,7 @@ module Asciidoctor::Rouge
 
     # @param node [Asciidoctor::AbstractNode]
     # @return [PassthroughsSubstitutor] a passthroughs substitutor for
-    #   the given _node_.
+    #   the given *node*.
     def self.create(node)
       new(node)
     end
@@ -22,7 +22,7 @@ module Asciidoctor::Rouge
     # after processing.
     #
     # @param text [String] the source of the node.
-    # @return [String] a copy of the _text_ with passthrough regions
+    # @return [String] a copy of the *text* with passthrough regions
     #   substituted with placeholders.
     def extract(text)
       @node.extract_passthroughs(text)
@@ -32,7 +32,7 @@ module Asciidoctor::Rouge
     # placeholder positions.
     #
     # @param text [String] the text into which to restore the passthroughs.
-    # @return [String] a copy of the _text_ with restored passthroughs.
+    # @return [String] a copy of the *text* with restored passthroughs.
     def restore(text)
       return text if @node.passthroughs.empty?
 

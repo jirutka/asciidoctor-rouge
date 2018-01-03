@@ -21,18 +21,18 @@ module Asciidoctor::Rouge
     #   wrapper element). Defaults to empty array.
     #
     # @param inline_theme [String, Rouge::Theme, Class<Rouge::Theme>, nil]
-    #   the theme to use for inline styles, or +nil+ to not set inline styles
-    #   (i.e. use classes). This is ignored if _inner_ is not +nil+.
+    #   the theme to use for inline styles, or `nil` to not set inline styles
+    #   (i.e. use classes). This is ignored if *inner* is not `nil`.
     #
     # @param line_class [String, nil] CSS class to set on a line wrapper
-    #   element, or +nil+ to not set a class. Defaults to "line".
+    #   element, or `nil` to not set a class. Defaults to "line".
     #
-    # @param line_id [String, nil] format string specifying +id+ for each line,
-    #   or +nil+ to omit +id+. Defaults to "L%i".
+    # @param line_id [String, nil] format string specifying `id` for each line,
+    #   or `nil` to omit `id`. Defaults to "L%i".
     #
     # @param inner [Rouge::Formatter::HTML, #span, nil] the inner HTML
-    #   formatter to delegate formatting of tokens to, or +nil+ to get
-    #   +html+ or +html_inline+ formatter from the +Rouge::Formatter+'s
+    #   formatter to delegate formatting of tokens to, or `nil` to get
+    #   `html` or `html_inline` formatter from the `Rouge::Formatter`'s
     #   registry.
     #
     def initialize(callout_markers: nil,

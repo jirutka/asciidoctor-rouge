@@ -13,18 +13,18 @@ module Asciidoctor::Rouge
     attr_reader :callouts
 
     # @param node [Asciidoctor::AbstractNode]
-    # @return [CalloutsSubstitutor] a callouts substitutor for the given _node_.
+    # @return [CalloutsSubstitutor] a callouts substitutor for the given *node*.
     def self.create(node)
       new(node)
     end
 
-    # Extracts and stashes callout markers from the given _text_ for
+    # Extracts and stashes callout markers from the given *text* for
     # reinsertion after processing.
     #
     # This should be used prior passing the source to a code highlighter.
     #
     # @param text [#each_line] source of the listing block.
-    # @return [String] a copy of the _text_ with callout marks removed.
+    # @return [String] a copy of the *text* with callout marks removed.
     def extract(text)
       escape_char = ::Asciidoctor::Substitutors::RS
       @callouts.clear
@@ -72,7 +72,7 @@ module Asciidoctor::Rouge
     end
 
     # @param number [Integer] callout number.
-    # @return [String] an HTML markup of a callout marker with the given _number_.
+    # @return [String] an HTML markup of a callout marker with the given *number*.
     def convert_callout(number)
       ::Asciidoctor::Inline.new(@node, :callout, number, id: next_callout_id).convert
     end

@@ -1,4 +1,5 @@
 --title "Asciidoctor Rouge Documentation"
 --default-return void
+--markup markdown
 -
 LICENSE
