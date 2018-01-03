@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 require 'asciidoctor/rouge/version'
+require 'asciidoctor/rouge/constants'
 require 'asciidoctor/extensions'
 require 'rouge'
 
@@ -13,7 +14,7 @@ module Asciidoctor::Rouge
       return unless document.attr?('source-highlighter', 'rouge')
       return unless document.attr('rouge-css', 'class') == 'class'
 
-      if (theme = ::Rouge::Theme.find(document.attr('rouge-theme', 'github')))
+      if (theme = ::Rouge::Theme.find(document.attr('rouge-theme', DEFAULT_THEME)))
         css = theme.render(scope: '.highlight')
         ['<style>', css, '</style>'].join("\n")
       end

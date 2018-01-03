@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 require 'asciidoctor/rouge/version'
+require 'asciidoctor/rouge/constants'
 require 'asciidoctor/rouge/callouts_substitutor'
 require 'asciidoctor/rouge/html_formatter'
 require 'asciidoctor/rouge/passthroughs_substitutor'
@@ -91,7 +92,7 @@ module Asciidoctor::Rouge
       block.set_attr('language', lexer.tag)
 
       if document.attr?('rouge-css', 'style')
-        opts[:inline_theme] = document.attr('rouge-theme', 'github')
+        opts[:inline_theme] = document.attr('rouge-theme', DEFAULT_THEME)
       end
 
       if block.attr?('highlight', nil, false)
