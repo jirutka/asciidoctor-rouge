@@ -91,7 +91,11 @@ module Asciidoctor::Rouge
       block.set_attr('language', lexer.tag)
 
       if document.attr?('rouge-css', 'style')
-        opts[:inline_theme] = document.attr('rouge-theme', DEFAULT_THEME)
+        # 'rouge-style' is alternative name for compatibility with
+        # asciidoctor-pdf (see #3).
+        opts[:inline_theme] = document.attr('rouge-theme') \
+                           || document.attr('rouge-style') \
+                           || DEFAULT_THEME
       end
 
       if block.attr?('highlight', nil, false)

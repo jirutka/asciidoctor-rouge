@@ -59,6 +59,9 @@ rouge-theme::
   Look into https://github.com/jneen/rouge/tree/master/lib/rouge/themes[lib/rouge/themes] in the Rouge repository for a list of available themes.
   Default is `github`.
 
+rouge-style::
+  Alternative name for the `rouge-theme` for compatibility with _asciidoctor-pdf_ (see https://github.com/{gh-name}/issues/3[#3]).
+
 
 == License
 
