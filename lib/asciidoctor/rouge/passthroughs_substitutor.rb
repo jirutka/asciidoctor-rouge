@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 require 'asciidoctor/substitutors'
-require 'asciidoctor/rouge/version'
+require 'asciidoctor/rouge/constants'
 
 module Asciidoctor::Rouge
   # A substitutor for processing passthroughs inside listing blocks.

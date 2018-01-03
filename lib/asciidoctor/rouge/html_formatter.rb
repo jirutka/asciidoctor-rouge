@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require 'asciidoctor/rouge/version'
+require 'asciidoctor/rouge/constants'
 require 'rouge'
 
 module Asciidoctor::Rouge

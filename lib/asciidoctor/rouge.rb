@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 require 'asciidoctor/extensions'
-require 'asciidoctor/rouge/version'
+require 'asciidoctor/rouge/constants'
 require 'asciidoctor/rouge/docinfo_processor'
 require 'asciidoctor/rouge/treeprocessor'
 

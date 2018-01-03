@@ -3,7 +3,7 @@ require 'English'
 require 'asciidoctor'
 require 'asciidoctor/inline'
 require 'asciidoctor/substitutors'
-require 'asciidoctor/rouge/version'
+require 'asciidoctor/rouge/constants'
 
 module Asciidoctor::Rouge
   # A substitutor for processing callouts inside a source listing block.
