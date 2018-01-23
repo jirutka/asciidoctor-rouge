@@ -1,6 +1,10 @@
 AllCops:
   TargetRubyVersion: 2.3
 
+# False positive...
+Bundler/DuplicatedGem:
+  Enabled: false
+
 # I prefer no empty line between magic comment and requires.
 Layout/EmptyLineAfterMagicComment:
   Enabled: false

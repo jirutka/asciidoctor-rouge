@@ -1,33 +1,57 @@
 dist: trusty
 sudo: false
 language: ruby
-rvm:
-  - 2.5
-  - 2.4
-  - 2.3
-  - 2.2
-  - 2.1
-  # Using exact version as workaround for https://github.com/travis-ci/travis-ci/issues/8446.
-  - jruby-9.1.15.0
-  - ruby-head
-  - jruby-head
-matrix:
+
+jobs:
+  include:
+    - env: &adoc-latest ASCIIDOCTOR_VERSION=1.5.6.1
+      rvm: 2.5
+    - env: *adoc-latest
+      rvm: 2.4
+    - env: *adoc-latest
+      rvm: 2.3
+    - env: *adoc-latest
+      rvm: 2.2
+    - env: *adoc-latest
+      rvm: 2.1
+    - env: *adoc-latest
+      # Using exact version as workaround for https://github.com/travis-ci/travis-ci/issues/8446.
+      rvm: jruby-9.1.15.0
+    - env: *adoc-latest
+      rvm: ruby-head
+    - env: *adoc-latest
+      rvm: jruby-head
+
+    - env: ASCIIDOCTOR_VERSION=1.5.6
+      rvm: 2.3
+
+    - env: ASCIIDOCTOR_VERSION="git:master"
+      rvm: 2.5
+
   allow_failures:
-    - rvm: ruby-head
-    - rvm: jruby-head
+    - env: *adoc-latest
+      rvm: ruby-head
+    - env: *adoc-latest
+      rvm: jruby-head
+    - env: ASCIIDOCTOR_VERSION="git:master"
+      rvm: 2.5
+
 env:
   global:
     secure: "Q964YRVFnpsR3KlP/gQQ17OeH+K1TDMrPdEHDphqg6V5dPzCtvDqd4U35E/XpfKPVObxi0bgFj3Dh0EuezB7ochJ6EbrD7uhTrQlee3r+xkXoL00nHZFTETI2ZdC4+cSKQRBFP/abU7CRj10z7fpJ6yr8pzL3lHLh9U2ojMuRdRSOoaqN7U4Dp0XlUH8SIa+fS4X3O8h/Q4hZgc+OtWsVroZTQsoYGERd4E87djbd/uIz+EX5scTw3tLy2qUM552XIQVMmo16FETK9aEa6PBErunM+ySYtm9xfPkiNJzvHUCeCm+daHTz+v5XXCV1Y9j6RFDY2dlcT+kw0fYETNUaMw4UkAUhBYrTuPu1JSTOBHg5c2sEKOIjsO7tsF0UzzzpL7oCN+lz8qmRIoYOHzD5jiAnU5cYDFt25jucFxCyn/dvztaSbUDIh5daH1tUaUJkfNwrNGVqroBDZtTuwR+Akh4B3Cq8KDl47PFGNWjn8ym387vovOaJc+DiptaKyDT1ObFyoYFSoej9sV3fiMEvw7Tran7nDiPQYcKaiaeJdPZKoeyw5JFXNFGMUdTlKHlX6KuesDG+Dc9x1IqklHf5IK1/h7h/nHR26U/ZifVEKnLLA0P4J7ymEGDcmOSX6Xk/3XTX+Vf0hZJFzyvnrypxT/36tZQmIbOsE2RXHOAzgI="  # CODACY_PROJECT_TOKEN
+
 before_install:
   # Workaround for https://github.com/travis-ci/travis-ci/issues/8978.
   - gem update --system
+
 script:
   - bundle exec rake spec
   - bundle exec rake rubocop
+
 deploy:
   provider: rubygems
   api_key:
     secure: "eB4LeFQS7LpmyZ3YK3e5Js2u1pz79YqY1mFJdqX1J62d9g/Jn4pDXxzncqtqx2m+p3SJwtyNw5HL5hbRW5AtOecjAh2vW7I1gUMO4A7k6ykNHjPBKeKvCD4f4dme80Jp++jV/z2VJycz8JouHjLNTRL7z4YKMqG9I7lymGEuUJGQUSR7T1+s+UgcmylYBJjxVLxXrlgFfrF9OfAY6Zd60o0bE7wVGHjyn8vfQg2OjoNWM34mZX1C9pkL3P84tspBzZgU19ZmzW4lR2sF4lwHGG5YBRCgbFFDGhzv/eLqu4KjjasmQs/2M83otW7vc2EvuahyiSjrjkR3MfsTD/IXAFb6iUMnNkeLa9hI4DCZcCg0qIXVTTZc+tmtAxoEmmj3SW311fdf7QpWM3lZvdKj7UFWphPRQ9ewEGljXIbZpvyFs4UM40L8BB37hLgfBSQfSKvC4dQ9wBddb+ldKsiaREaOsSZwl2x2NKD+QmivfKHxHSy7DwzV5Qc6zpt328QCrMzZTPYe5FY1J1bWRszYFIITai/tmKutI8hQcx68LWFqvqxPcWwnHGgQD1pROp2FCf5oRrAv4/+sv+oyZachHbkc2AsPK2M9a/4RxE0+vonBM9XSIHNpgzZOe3W6UaIkFfkQBNSxUpmYsoXJL5jRAaOKL1nv/b64xigTzfvlvzg="
   on:
-    rvm: 2.4
     tags: true
+    condition: ${TRAVIS_JOB_NUMBER#*.} = 1
