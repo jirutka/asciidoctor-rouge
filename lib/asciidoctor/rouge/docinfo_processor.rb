@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 require 'asciidoctor/rouge/constants'
+require 'asciidoctor'
 require 'asciidoctor/extensions'
 require 'rouge'
 

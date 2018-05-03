@@ -3,6 +3,7 @@ require 'asciidoctor/rouge/constants'
 require 'asciidoctor/rouge/callouts_substitutor'
 require 'asciidoctor/rouge/html_formatter'
 require 'asciidoctor/rouge/passthroughs_substitutor'
+require 'asciidoctor'
 require 'asciidoctor/extensions'
 require 'rouge'
 

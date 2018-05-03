@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require 'asciidoctor/substitutors'
+require 'asciidoctor'
 require 'asciidoctor/rouge/constants'
 
 module Asciidoctor::Rouge
