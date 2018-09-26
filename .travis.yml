@@ -15,7 +15,7 @@ jobs:
     - env: *adoc-latest
       rvm: 2.1
     - env: *adoc-latest
-      rvm: jruby-9.1
+      rvm: jruby-9.2
     - env: *adoc-latest
       rvm: ruby-head
     - env: *adoc-latest
