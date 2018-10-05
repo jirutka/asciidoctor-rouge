@@ -71,9 +71,6 @@ module Asciidoctor::Rouge
       subs = block.subs  # Array<Symbol>
       opts = {}
 
-      # Don't escape special characters, Rouge will take care of it.
-      subs.delete(:specialcharacters)
-
       if subs.delete(:macros)
         passthroughs = @passthroughs_sub.create(block)
         source = passthroughs.extract(source)
@@ -84,8 +81,13 @@ module Asciidoctor::Rouge
         source = callouts.extract(source)
       end
 
-      source = block.apply_subs(source, subs)
-      subs.clear
+      # Apply subs before :specialcharacters, keep subs after :specialcharacters.
+      # We don't escape special characters, Rouge will take care of it.
+      # See https://github.com/asciidoctor/asciidoctor/blob/v1.5.7.1/lib/asciidoctor/substitutors.rb#L1618-L1622
+      if (subs_before = subs.slice!(0, subs.index(:specialcharacters) || -1))
+        subs.delete(:specialcharacters)
+        source = block.apply_subs(source, subs_before)
+      end
 
       lang = block.attr('language', 'plaintext', false)
       lexer = find_lexer(lang)

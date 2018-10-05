@@ -59,13 +59,27 @@ module Asciidoctor::Rouge
       HTML
     end
 
-    test 'Source block with attributes substitution enabled' do
+    test 'Source block with subs="+attributes"' do
       given <<-ADOC.unindent
         :message: Hello, \#{subject}!
 
         [source, ruby, subs="+attributes"]
         puts "{message}"
       ADOC
+      # Attribute is substituted *after* the source is highlighted.
+      expected <<-HTML
+        <span id="L1" class="line"><span class="nb">puts</span> <span class="s2">"Hello, \#{subject}!"</span></span>
+      HTML
+    end
+
+    test 'Source block with subs="attributes+"' do
+      given <<-ADOC.unindent
+        :message: Hello, \#{subject}!
+
+        [source, ruby, subs="attributes+"]
+        puts "{message}"
+      ADOC
+      # Attribute is substituted *before* the source is highlighted.
       expected <<-HTML
         <span id="L1" class="line"><span class="nb">puts</span> <span class="s2">"Hello, </span><span class="si">\#{</span><span class="n">subject</span><span class="si">}</span><span class="s2">!"</span></span>
       HTML
