@@ -65,9 +65,11 @@ module Asciidoctor::Rouge
 
       @callout_rx = if node.attr? 'line-comment'
         comment_rx = ::Regexp.escape(node.attr('line-comment'))
-        /(?:#{comment_rx} )?#{::Asciidoctor::CalloutExtractRxt}/
+        # Copied from Asciidoctor::CalloutExtractRxt (1.5.7.1)
+        /(?:#{comment_rx} )?(\\)?<()(\d+)>(?=(?: ?\\?<\d+>)*$)/
       else
-        ::Asciidoctor::CalloutExtractRx
+        # Copied from Asciidoctor::CalloutExtractRx (1.5.7.1)
+        %r((?:(?://|#|--|;;) ?)?(\\)?<!?(|--)(\d+)\2>(?=(?: ?\\?<!?\2\d+\2>)*$))
       end
     end
 

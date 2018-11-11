@@ -102,8 +102,7 @@ module Asciidoctor::Rouge
       end
 
       if block.attr?('highlight', nil, false)
-        highlight = block.attr('highlight', '', false)
-        opts[:highlighted_lines] = block.resolve_highlight_lines(highlight)
+        opts[:highlighted_lines] = resolve_lines_to_highlight(block, source)
       end
 
       opts[:callout_markers] = callouts.method(:convert_line) if callouts
@@ -132,6 +131,21 @@ module Asciidoctor::Rouge
         @formatter.format(tokens, @formatter_opts.merge(opts))
       else
         @formatter.format(tokens)
+      end
+    end
+
+    # @param block [Asciidoctor::Block] the listing block.
+    # @param source [String] the source of the *block*.
+    # @return [Array<Integer>] an array of line numbers to highlight.
+    def resolve_lines_to_highlight(block, source)
+      highlight = block.attr('highlight', '', false)
+
+      # Asciidoctor < 1.5.8
+      if block.respond_to?(:resolve_highlight_lines)
+        block.resolve_highlight_lines(highlight)
+      # Asciidoctor >= 1.5.8
+      else
+        block.resolve_lines_to_highlight(source, highlight)
       end
     end
   end
