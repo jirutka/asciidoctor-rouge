@@ -116,7 +116,7 @@ module Asciidoctor::Rouge
     # @param language [String]
     # @return [Rouge::Lexer] a lexer for the specified *language*.
     def find_lexer(language)
-      (::Rouge::Lexer.find(language) || ::Rouge::Lexers::PlainText).new
+      (::Rouge::Lexer.find_fancy(language) || ::Rouge::Lexers::PlainText.new)
     end
 
     # @param source [String] the code to highlight.

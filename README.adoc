@@ -50,8 +50,9 @@ You can further customize the source block output with additional Rouge attribut
 
 rouge-css::
   Controls what method is used for applying CSS to the tokens.
-  Can be `class` (CSS classes) or `style` (inline styles).
+  Can be `class` (CSS classes), `style` (inline styles) or `external` (external styles).
   When `class` is used, Rouge styles for the specified theme are included in an HTML header.
+  When `external` is specified, CSS classes are used but no styles will be added except when `rouge-theme` is not empty in which case its value is interpreted as a URL to a style sheet and a link to that style sheet will be added to the HTML header.
   Default is `class`.
 
 rouge-theme::
@@ -62,6 +63,22 @@ rouge-theme::
 rouge-style::
   Alternative name for the `rouge-theme` for compatibility with _asciidoctor-pdf_ (see https://github.com/{gh-name}/issues/3[#3]).
 
+
+=== Passing CGI-style options for selected language
+
+Rouge allows passing https://github.com/jneen/rouge#you-can-even-use-it-with-redcarpet[certain options] to its Lexer classes when selecting the language to parse. This feature is also available from within Asciidoctor. So instead of simply writing:
+
+```
+[source, console]
+```
+
+to select `console` as output language (with its default options) you can also write:
+
+```
+[source, "console?prompt=$> "]
+```
+
+This will also select `console` as output language but it will additionally set the prompt string to ``$> ``. Options are comma separeted `key=value` pairs which are appended to the language string with a `?`-character. Consult the various https://www.rubydoc.info/gems/rouge/Rouge/Lexers[Rouge Lexer] classes to find out which additional options they support.
 
 == License
 
