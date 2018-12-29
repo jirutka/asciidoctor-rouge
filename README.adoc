@@ -63,6 +63,17 @@ rouge-theme::
 rouge-style::
   Alternative name for the `rouge-theme` for compatibility with _asciidoctor-pdf_ (see https://github.com/{gh-name}/issues/3[#3]).
 
+rouge-highlighted-class::
+  CSS class to use on a line wrapper element for highlighted lines.
+  Default is `highlighted`.
+
+rouge-line-class::
+  CSS class to set on a line wrapper element
+  Default is `line`.
+
+rouge-line-id::
+  Format string for specifying an HTML `id` for each line (e.g. with `rouge-line-id="L%i"` each line of the listing will get an id of the form `id="L1"`, `id="L2"`, etc.). This really only makes sense if the format string is distinct for each source listing, otherwise it will lead to duplicate IDs which makes the generated HTML invalid.
+  Default is no line ids.
 
 === Passing CGI-style options for selected language
 

@@ -105,6 +105,17 @@ module Asciidoctor::Rouge
         opts[:highlighted_lines] = resolve_lines_to_highlight(block, source)
       end
 
+      # Line ID patterns only make sense if they are unique for each source
+      # block, otherwise they can lead to non-unique IDs within the document.
+      # We only allow setting them on a source block and not for the document.
+      line_id = block.attr('rouge-line-id', nil, false)
+      opts[:line_id] = line_id if line_id
+      # Allow overriding of the following attributes
+      highlighted_class = block.attr('rouge-highlighted-class')
+      opts[:highlighted_class] = highlighted_class if highlighted_class
+      line_class = block.attr('rouge-line-class')
+      opts[:line_class] = line_class if line_class
+
       opts[:callout_markers] = callouts.method(:convert_line) if callouts
 
       result = highlight(source, lexer, opts)
