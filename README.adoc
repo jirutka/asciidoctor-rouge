@@ -22,6 +22,8 @@ It supports all Asciidoctor features such as http://asciidoctor.org/docs/user-ma
 
 This extension is highly customizable and modular.
 
+*NOTICE:* Asciidoctor already supports for Rouge since https://github.com/asciidoctor/asciidoctor/blob/master/CHANGELOG.adoc#200-2019-03-22---mojavelinux[version 2.0.0], so this extension is not needed anymore.
+
 
 == Installation
 
