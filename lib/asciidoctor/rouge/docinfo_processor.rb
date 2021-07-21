@@ -12,11 +12,19 @@ module Asciidoctor::Rouge
     # @return [String, nil]
     def process(document)
       return unless document.attr?('source-highlighter', 'rouge')
-      return unless document.attr('rouge-css', 'class') == 'class'
+      style = document.attr('rouge-css', 'class')
 
-      if (theme = ::Rouge::Theme.find(document.attr('rouge-theme', DEFAULT_THEME)))
-        css = theme.render(scope: '.highlight')
-        ['<style>', css, '</style>'].join("\n")
+      if (style == 'class')
+        if (theme = ::Rouge::Theme.find(document.attr('rouge-theme', DEFAULT_THEME)))
+          css = theme.render(scope: '.highlight')
+          ['<style>', css, '</style>'].join("\n")
+        end
+      elsif (style == 'external')
+        if (theme = document.attr('rouge-theme'))
+          ['<link rel="stylesheet" href="', theme, '">'].join("")
+        end
+      else
+        return
       end
     end
   end
